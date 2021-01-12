@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(function() {
+		$.ajax({
+			url: 'getEmpList', //index.html getEmpList 같은 위치
+			type: 'get',
+			dataType: 'json',
+			success: function(result){
+				//console.log(result);
+				let data = result;
+				let firstNames = $(data).map(function(i,o){
+					return o.firstName;
+				}).get();
+				let grepNames = $.grep(firstNames, function(o, i){
+					return o.length > 5;
+				}, true); // true > 반대되는 값 출력, false > return 조건에 맞는 거
+				console.log(grepNames);
+			},
+			error: function(result){
+				console.log(result)
+			}
+		});
+	})
+</script>
+</head>
+<body>
+
+</body>
+</html>
