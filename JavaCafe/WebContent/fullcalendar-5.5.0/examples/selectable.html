@@ -28,7 +28,8 @@
 			selectMirror : true,
 			select : function(arg) {
 				var title = prompt('일정을 등록하시오:');
-				var time = prompt('시작 시간을 등록하시오:')
+				var time = prompt('시작 시간을 등록하시오:');
+				var ends = prompt('종료 일자를 등록하시오:');
 				if (title) {
 					calendar.addEvent({
 						title : title,
@@ -42,13 +43,19 @@
 					} else {
 						startTime = arg.startStr;
 					}
+					let endTime;
+					if(ends) {
+						endTime = arg.endStr + 'T' + ends;
+					} else {
+						endTime = arg.endStr;
+					}
 					//타이틀, 2021-01-13T10:00:00
 					console.log(title, arg.startStr, time);
 					// 데이터베이스 입력처리.
 					let scheduleReq = new XMLHttpRequest();
 					scheduleReq.open('post', '../../insertSchedule');
 					scheduleReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-					scheduleReq.send('title=' + title + '&start=' + startTime);
+					scheduleReq.send('title=' + title + '&start=' + startTime + '&end=' + endTime);
 					scheduleReq.onload = function(){
 						console.log(scheduleReq);
 					}
