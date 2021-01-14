@@ -31,6 +31,58 @@ public class ProductDAO {
 		}
 	}// ProductDAO
 	
+	public ProductVO getProduct(ProductVO vo) {
+		String sql = "select * from product where item_no = ?";
+		ProductVO v = null;
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getItemNo());
+			ResultSet rs = psmt.executeQuery();
+			if(rs.next()) {
+				v = new ProductVO();
+				v.setAlt(rs.getString("alt"));
+				v.setCategory(rs.getString("category"));
+				v.setContent(rs.getString("content"));
+				v.setImage(rs.getString("image"));
+				v.setItem(rs.getString("item"));
+				v.setItemNo(rs.getString("item_no"));
+				v.setLikeIt(rs.getInt("like_it"));
+				v.setLink(rs.getString("link"));
+				v.setPrice(rs.getInt("price"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return v;
+	}
+	
+	public void insertProduct(ProductVO vo) {
+		String sql = "insert into product (item_no, item, category, price, content, like_it, image) "
+				+ "values(?,?,?,?,?,?,?)";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getItemNo());
+			psmt.setString(2, vo.getItem());
+			psmt.setString(3, vo.getCategory());
+			psmt.setInt(4, vo.getPrice());
+			psmt.setString(5, vo.getContent());
+			psmt.setInt(6, vo.getLikeIt());
+			psmt.setString(7, vo.getImage());
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 입력되었습니다.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public List<ProductVO> getProductList() {
 		String sql = "select * from product order by 1";
 		List<ProductVO> list = new ArrayList<>();

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>exam04.html</title>
+</head>
+<body>
+	<form>
+		이름: <input type="text" id="name" name="name" value='김'> <br>
+		나이: <input type="text" id="age" name="age" value='15'> <br>
+		전화번호: <input type="text" id="phone" name="phone" value='010.2222.3333'><br>
+		<br>
+		<button id="bb" onclick='saves()'>등록</button>
+	</form>
+	
+	<script>
+		function saves() {
+			let name = document.getElementById('name').value;
+			let age = document.getElementById('age').value;
+			let phone = document.getElementById('phone').value;
+			let url = 'name=' + name + '&age=' + age + '&phone=' + phone;
+			let save = new XMLHttpRequest();
+			save.open('get', '');
+			save.send(url);
+			save.onload = function() {
+				console.log(save.responseXML);
+			}
+		}
+	</script>
+</body>
+</html>

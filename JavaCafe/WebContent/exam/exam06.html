@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div id='show'></div>
+	<script>
+$(function () {
+    $.ajax({
+        url: 'employees.xml',
+        dataType: 'xml',
+        success: showContent,
+        error: function (result) {
+            console.log('에러' + result.statusText);
+        }
+    });	
+})
+
+function showContent(result) {
+    let headers = ['emp_id', 'first_name', 'last_name', 'email', 'gender', 'phone_number'];
+    let li;
+    let data = result;
+    let dase = document.getElementsByTagName('<record>');
+    console.log(dase,data);
+    let ul = $('<ul />');
+    for (fiel of headers) {
+        li = $('<li />').append(fiel);
+        ul.append(li);
+    } 
+    ul.append(li);
+    $.each(dase, function (a, b) {
+    	console.log(data);
+        let ul = $('<ul />');
+        for (field of headers) {
+            li = $('<li />').html(b[field]);
+        }
+        ul.append(li);
+})
+    $('#show').append(ul);
+}
+
+</script>
+</body>
+</html>

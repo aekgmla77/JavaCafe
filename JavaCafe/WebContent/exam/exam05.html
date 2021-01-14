@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+	<div id='show'></div>
+	<script>
+$(function () {
+    $.ajax({
+        url: 'members.json',
+        dataType: 'json',
+        success: showContent,
+        error: function (result) {
+            console.log('에러' + result.statusText);
+        }
+    
+    });	
+})
+function showContent(result) {
+    let headers = ['mem_id', 'first_name', 'last_name', 'email', 'gender', 'address'];
+    console.log(result);
+    let data = result;
+    let table = $('<table />').attr('border', '1').attr('id', 'tbl');
+    let titles = $('<tr />')
+    for (fiel of headers) {
+        let th = $('<th />').html(fiel.replace('_', ' ').toUpperCase());
+        titles.append(th);
+    }
+    table.append(titles);
+    $.each(data, function (idx, obj) {
+            let tr = $('<tr />');
+            $(tr).attr('id', obj.id);
+            for (field of headers) {
+                let td = $('<td />').html(obj[field]);
+                tr.append(td);
+            }
+            table.append(tr);
+        
+    })
+    $('#show').append(table);
+}
+
+    </script>
+</body>
+</html>

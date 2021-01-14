@@ -34,6 +34,21 @@ public class EmpDAO {
 		}
 	} //end of 생성자
 	
+	public boolean deleteSchedule(Schedule sch) {
+		String sql = "delete from calendar where title = ?";
+		int r = 0;
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, sch.getTitle());
+			
+			r = psmt.executeUpdate();
+			System.out.println(r + "건 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return r == 1 ? true : false;
+	}
+	
 	public void insertSchedule(Schedule sch) {
 		String sql = "insert into calendar values(?,?,?,?)";
 		try {
